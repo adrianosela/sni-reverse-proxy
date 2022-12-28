@@ -42,6 +42,16 @@ func main() {
 }
 ```
 
+### Middleware Timing Diagram
+
+There are two types of middlewares supported -- **request middlewares**, and **response middlewares**. The major difference between these is their scope.
+
+- Both request middlewares and response middlewares are hirarchical in-order
+- Response middlewares **all** run **after** request proxying (e.g. getting a response from the upstream host for a request) and can modify the response.
+- Request middlewares are all **started** before request proxying -- allowing the developer to modify requests. However, the scope of any given request middleware includes lower order request middlewares, request proxying, and all response middlewares -- allowing the developer to **also** modify responses, record timing, etc.
+
+![](./_docs_/images/middleware_timing.png)
+
 ### Testing
 
 #### To Verify Connection to a Back-end Host
